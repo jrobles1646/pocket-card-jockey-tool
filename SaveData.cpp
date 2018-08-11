@@ -12,8 +12,15 @@ SaveData::SaveData()
 	youngHorse = new Horse();
 
 	//Get mature horses
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 6; i++)
 		matureHorse[i] = new Horse();
+
+	//Get dummy horse
+	dummyHorse = new Horse();
+
+	//Get foals
+	for (int i = 0; i < 5; i++)
+		foal[i] = new Horse();
 
 	//Get retired horses
 	for (int i = 0; i < 12; i++)
@@ -40,21 +47,26 @@ SaveData::SaveData()
 	allHorses[4] = matureHorse[3];
 	allHorses[5] = matureHorse[4];
 	allHorses[6] = matureHorse[5];
-	allHorses[7] = matureHorse[6];
-	allHorses[8] = farmHorse[0];
-	allHorses[9] = farmHorse[1];
-	allHorses[10] = farmHorse[2];
-	allHorses[11] = farmHorse[3];
-	allHorses[12] = farmHorse[4];
-	allHorses[13] = farmHorse[5];
-	allHorses[14] = farmHorse[6];
-	allHorses[15] = farmHorse[7];
-	allHorses[16] = farmHorse[8];
-	allHorses[17] = farmHorse[9];
-	allHorses[18] = farmHorse[10];
-	allHorses[19] = farmHorse[11];
-	allHorses[20] = breedingHorse[0];
-	allHorses[21] = breedingHorse[1];
+	allHorses[7] = dummyHorse;
+	allHorses[8] = foal[0];
+	allHorses[9] = foal[1];
+	allHorses[10] = foal[2];
+	allHorses[11] = foal[3];
+	allHorses[12] = foal[4];
+	allHorses[13] = farmHorse[0];
+	allHorses[14] = farmHorse[1];
+	allHorses[15] = farmHorse[2];
+	allHorses[16] = farmHorse[3];
+	allHorses[17] = farmHorse[4];
+	allHorses[18] = farmHorse[5];
+	allHorses[19] = farmHorse[6];
+	allHorses[20] = farmHorse[7];
+	allHorses[21] = farmHorse[8];
+	allHorses[22] = farmHorse[9];
+	allHorses[23] = farmHorse[10];
+	allHorses[24] = farmHorse[11];
+	allHorses[25] = breedingHorse[0];
+	allHorses[26] = breedingHorse[1];
 }//end default constructor SaveData::SaveData()
 
 //--------------------------------------------------------------------------------------------
@@ -65,16 +77,23 @@ SaveData::SaveData(fstream& saveFileData)
 	youngHorse = new Horse(HorseIndex[0], saveFileData);
 
 	//Get mature horses
-	for (int i = 1; i < 8; i++)
+	for (int i = 1; i < 7; i++)
 		matureHorse[i - 1] = new Horse(HorseIndex[i], saveFileData);
 
+	//Get dummy horse
+	dummyHorse = new Horse(HorseIndex[7], saveFileData);
+
+	//Get foals
+	for (int i = 8; i < 13; i++)
+		foal[i - 8] = new Horse(HorseIndex[i], saveFileData);
+
 	//Get retired horses
-	for (int i = 8; i < 20; i++)
-		farmHorse[i - 8] = new Horse(HorseIndex[i], saveFileData);
+	for (int i = 13; i < 25; i++)
+		farmHorse[i - 13] = new Horse(HorseIndex[i], saveFileData);
 
 	//Get breeding horses
-	for (int i = 20; i < 22; i++)
-		breedingHorse[i - 20] = new Horse(HorseIndex[i], saveFileData);
+	for (int i = 25; i < HORSE_MAX; i++)
+		breedingHorse[i - 25] = new Horse(HorseIndex[i], saveFileData);
 
 	//Set reward money from 8 horses
 	for (int i = 0; i < 8; i++)
@@ -99,22 +118,26 @@ SaveData::SaveData(fstream& saveFileData)
 	allHorses[4] = matureHorse[3];
 	allHorses[5] = matureHorse[4];
 	allHorses[6] = matureHorse[5];
-	allHorses[7] = matureHorse[6];
-	allHorses[8] = farmHorse[0];
-	allHorses[9] = farmHorse[1];
-	allHorses[10] = farmHorse[2];
-	allHorses[11] = farmHorse[3];
-	allHorses[12] = farmHorse[4];
-	allHorses[13] = farmHorse[5];
-	allHorses[14] = farmHorse[6];
-	allHorses[15] = farmHorse[7];
-	allHorses[16] = farmHorse[8];
-	allHorses[17] = farmHorse[9];
-	allHorses[18] = farmHorse[10];
-	allHorses[19] = farmHorse[11];
-	allHorses[20] = breedingHorse[0];
-	allHorses[21] = breedingHorse[1];
-
+	allHorses[7] = dummyHorse;
+	allHorses[8] = foal[0];
+	allHorses[9] = foal[1];
+	allHorses[10] = foal[2];
+	allHorses[11] = foal[3];
+	allHorses[12] = foal[4];
+	allHorses[13] = farmHorse[0];
+	allHorses[14] = farmHorse[1];
+	allHorses[15] = farmHorse[2];
+	allHorses[16] = farmHorse[3];
+	allHorses[17] = farmHorse[4];
+	allHorses[18] = farmHorse[5];
+	allHorses[19] = farmHorse[6];
+	allHorses[20] = farmHorse[7];
+	allHorses[21] = farmHorse[8];
+	allHorses[22] = farmHorse[9];
+	allHorses[23] = farmHorse[10];
+	allHorses[24] = farmHorse[11];
+	allHorses[25] = breedingHorse[0];
+	allHorses[26] = breedingHorse[1];
 }//end constructor SaveData::SaveData(fstream& saveFileData)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +149,7 @@ SaveData::SaveData(fstream& saveFileData)
 void SaveData::overwriteData(fstream& saveFileData)
 {
 	//Loop through horses and overwrite individually
-	for (int i = 0; i < 22; i++)
+	for (int i = 0; i < HORSE_MAX; i++)
 		allHorses[i]->writeData(HorseIndex[i], saveFileData);
 
 	//Set reward money to save file
@@ -145,13 +168,19 @@ void SaveData::overwriteData(fstream& saveFileData)
 void SaveData::maxAllHorse()
 {
 	//Loop through all horses individually and max their stats
-	for (int i = 0; i < 22; i++)
+	for (int i = 0; i < HORSE_MAX; i++)
 		allHorses[i]->maxStats();
 
-	//Setting your Growth Mode horse with high stats causes it to reset
-	// if it's too high, so we will set spd and stmna to 70
+	//Setting your young horse's stats will cause it to reset when it levels up,
+	// so the program will change it to 70
 	youngHorse->setSpeed(70);
 	youngHorse->setStamina(70);
+
+	for (int i = 8; i < 13; i++)
+	{
+		allHorses[i]->setSpeed(70);
+		allHorses[i]->setStamina(70);
+	}//end loop for (int i = 8; i < 13; i++)
 
 }//end function void SaveData::maxAllHorse()
 
@@ -162,7 +191,7 @@ void SaveData::maxAllCash()
 	//Set reward money
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 4; j++)
-			cash[i][j] = 0xFF;
+			cash[i][j] = (byte)0xFF;
 
 }//end function void SaveData::maxAllCash()
 
@@ -193,29 +222,41 @@ void SaveData::printAllData()
 	cout << endl;
 
 	//Output info for matured horses
-	for (int i = 1; i < 8; i++)
+	for (int i = 1; i < 7; i++)
 	{
 		cout << "  (#" << i + 1 << ") Mature Horse " << i << ":\n";
 		cout << "     Reward Money: ";  printCash(i);
-		//matureHorse[i-1]->printData();
 		allHorses[i]->printData();
 		cout << endl;
 	}//end loop for (int i = 1; i < 8; i++)
 
-	//Output info for farm horses
-	for (int i = 8; i < 20; i++)
+	//Output info for dummy horse
+	cout << "  (#8) Dummy Horse:\n";
+	dummyHorse->printData();
+	cout << endl;
+
+	//Output info for foals
+	for (int i = 8; i < 13; i++)
 	{
-		cout << "  (#" << i + 1 << ") Retired Horse " << i - 7 << ":\n";
+		cout << "  (#" << i + 1 << ") Foal " << i - 7 << ":\n";
+		allHorses[i]->printData();
+		cout << endl;
+	}//end loop for (int i = 8; i < 13; i++)
+
+	//Output info for farm horses
+	for (int i = 13; i < 25; i++)
+	{
+		cout << "  (#" << i + 1 << ") Retired Horse " << i - 12 << ":\n";
 		//farmHorse[i-8]->printData();
 		allHorses[i]->printData();
 		cout << endl;
 	}//end loop for (int i = 8; i < 20; i++)
 
-	cout << "  (#21) Male Breeding Horse:\n";
+	cout << "  (#26) Male Breeding Horse:\n";
 	breedingHorse[0]->printData();
 	cout << endl;
 
-	cout << "  (#22) Female Breeding Horse:\n";
+	cout << "  (#27) Female Breeding Horse:\n";
 	breedingHorse[1]->printData();
 	cout << endl;
 	
@@ -226,13 +267,10 @@ void SaveData::printAllData()
 // Prints a list of names of all horses
 void SaveData::printShortList()
 {
-	for (int i = 0; i < 22; i += 2)
+	for (int i = 0; i < HORSE_MAX; i += 2)
 	{
-		cout << setw(2) << (i + 1) << ") ";
-		allHorses[i]->printName();
-		cout  << " | ";
-		cout << (i + 2) << ") ";
-		allHorses[i + 1]->printName();
+		cout << right << setfill(' ') << setw(SPACING + 1) << (i + 1) << ") " << left << setw(20) << allHorses[i]->nameToString();
+		cout << (i + 2) << ") " << allHorses[i + 1]->nameToString();
 		cout << endl;
 	}//end loop void SaveData::printShortList()
 }//end function void SaveData::printShortList()
@@ -258,31 +296,73 @@ void SaveData::printCash(int i)
 void SaveData::writeIndividualHorse(int i)
 {
 	unsigned short int userInput;
-	cout << "=> Editing "; allHorses[i]->printName(); cout << ": <=\n";
+	cout << "=> Editing " << allHorses[i]->nameToString(); cout << " <=\n";
 
-	cout << "   Adjust speed from 0-255 (current " << ((int)allHorses[i]->getSpeed() & 0xFF) << "): ";
+	cout << "   Set its appearance (current "
+		 << ((int)allHorses[i]->getAppearance() & 0xFF) << "):\n";
+	allHorses[i]->displayAppearanceList();
+	cout << "=>";
+	cin >> userInput;
+	allHorses[i]->setAppearance((byte)userInput & 0xFF);
+
+	cout << "   Set its characteristic (current "
+		 << ((int)allHorses[i]->getCharacteristic() & 0xFF) << "):\n";
+	allHorses[i]->displayCharacterList();
+	cout << "=>";
+	cin >> userInput;
+	allHorses[i]->setCharacteristic((byte)userInput & 0xFF);
+
+	cout << "   Adjust the racing style (current "
+		 << ((int)allHorses[i]->getStyle() & 0xFF) << "):\n";
+	allHorses[i]->displayStyleList();
+	cout << "=>";
+	cin >> userInput;
+	allHorses[i]->setStyle((byte)userInput & 0xFF);
+
+	cout << "   Adjust its temperament (current "
+		 << ((int)allHorses[i]->getTemperament() & 0xFF) << "):\n";
+	allHorses[i]->displayTemperList();
+	cout << "=>";
+	cin >> userInput;
+	allHorses[i]->setTemperament((byte)userInput & 0xFF);
+
+	cout << endl;
+
+	cout << "   How many more babies can it have [0-255]? (Current "
+		 << ((int)allHorses[i]->getFertility() & 0xFF) << "): ";
+	cin >> userInput;
+	allHorses[i]->setFertility((byte)userInput & 0xFF);
+
+	cout << "   Adjust speed from 0-255 (current "
+		 << ((int)allHorses[i]->getSpeed() & 0xFF) << "): ";
 	cin >> userInput;
 	allHorses[i]->setSpeed((unsigned char)userInput);
 
-	cout << "   Adust stamina from 0-255 (current " << ((int)allHorses[i]->getStamina() & 0xFF) << "): ";
+	cout << "   Adust stamina from 0-255 (current "
+		 << ((int)allHorses[i]->getStamina() & 0xFF) << "): ";
 	cin >> userInput;
 	allHorses[i]->setStamina((byte)userInput & 0xFF);
 
-	cout << "   Adjust amount of races won (current " << ((int)allHorses[i]->getWins() & 0xFF) << "): ";
-	cin >> userInput;
-	allHorses[i]->setWins((byte)userInput & 0xFF);
-
-	cout << "   Adjust amount of races participated (current " << ((int)allHorses[i]->getRaces() & 0xFF) << "): ";
+	cout << "   Adjust amount of races participated (current "
+		 << ((int)allHorses[i]->getRaces() & 0xFF) << "): ";
 	cin >> userInput;
 	allHorses[i]->setRaces((byte)userInput & 0xFF);
 
-	cout << "   Adjust 1st peak time (current " << ((int)allHorses[i]->getPeak1() & 0xFF) << "): ";
+	cout << "   Adjust amount of races won (current "
+		 << ((int)allHorses[i]->getWins() & 0xFF) << "): ";
+	cin >> userInput;
+	allHorses[i]->setWins((byte)userInput & 0xFF);
+
+	cout << "   Adjust 1st peak time (current "
+		 << ((int)allHorses[i]->getPeak1() & 0xFF) << "): ";
 	cin >> userInput;
 	allHorses[i]->setPeak1((byte)userInput & 0xFF);
 
-	cout << "   Adjust 2nd peak time (current " << ((int)allHorses[i]->getPeak2() & 0xFF) << "): ";
+	cout << "   Adjust 2nd peak time (current "
+		 << ((int)allHorses[i]->getPeak2() & 0xFF) << "): ";
 	cin >> userInput;
 	allHorses[i]->setPeak2((byte)userInput & 0xFF);
 
-	cout << setw(SPACING) << "Data has been set. You can see your changes with option '1) View your horses'\n ";
+	cout << endl;
+	cout <<  "==>Data has been set. You can see your changes with option '1) View your horses'\n ";
 }//end function void SaveData::writeIndividualHorse(int i)

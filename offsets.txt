@@ -1,10 +1,24 @@
++0x18: Appearance
 +0x1A Speed
 +0x1C: Stamina
 +0x2C: Wins
 +0x2D: Races
++0x2E: Breeding capability
++0x2F: Characteristic
++0x3A: Racing style
++0x3B: Temperament
 +0x4A: Peak Time 1
 +0x4B: Peak Time 2
 +0x56-74 : Horse's name
+
+skills located somewhere in +0x30
+
+Foals:
+0x1370
+0x14B0
+0x15F0
+0x1730
+0x1870
 
 --Growth Mode:
 0x10
@@ -199,16 +213,6 @@ Female
 0x3996 - 39B4: Horse's name
 
 
-
-
-
-
-
-
-
-
-
-
 0x: Speed
 0x: Stamina
 0x: Wins
@@ -217,13 +221,89 @@ Female
 0x: Peak Time 2
 0x - : Horse's name
 
+0x32 skills
+0x01 Infinite Time (W)
+0x80 Fast start
+0x82 Auto-draw (W)
+0x20 Good tempered
+0x0A Auto-draw (W)
 
+0x33 skills
+0x04 Devil's Hand (W)
+0x80 Joker (S)
+0x20 Big Stock(S)
+0x10 Big Stock(W)
 
+0x34 skills
+0x10 Big Stock(W)
+0x20 Speed draw
+0x80 Big Hearted(S)
+0x01 Good Tempered
+0x41 Big Hearted (W)
 
-0x: Speed
-0x: Stamina
-0x: Wins
-0x: Races
-0x: Peak Time 1
-0x: Peak Time 2
-0x - : Horse's name
+0x00: Deletes horse
+x01 Fire (sun forehead)
+x02 flame black male
+0x03 Pompadour
+x04 Cyborg
+0x05 Dapper Male
+0x06 Blue bowtie female
+x07 Kunoichi
+0x08 Cat wrestler female
+0x09 witch
+0x0A Dragon male
+0x0B Male Dark brown
+0x0C Female dark brown
+0x0D Male dark brown
+0x0E Female Dark brown
+0x0F Dark gray male
+0x10 Dark gray female
+0x11 Male Navy blue
+0x12 Female Navy blue ***
+x13 Male dark Brown horse
+0x14 Female dark brown ****
+0x15 Male brown-greenish
+0x16 female brown greenish***
+0x17 Light brown male
+0x18 Light brown female ***
+0x19 Male white ***
+0x1A Female white horse
+Onwards... random horse
+
+Characteristics:
+0x00: None
+0x01: Unused (None)
+0x02: Unused (None)
+0x03: Unused (None)
+0x04: Front Charger
+0x05: Back Charger
+0x06: Front Unity
+0x07: Back Unity
+0x08: Middle Charger
+0x09: Middle Unity
+0x0A: Lead Charger
+0x0B: Last Charger
+0x0C: Better Turns
+0x0D: L Charger
+0x0E: TL Charger
+0x0F: WL Charger
+0x10: R Charger
+0x11: TR Charger
+0x12: WR Charger
+0x13: International Star
+Onwards: None
+
+Breeding values
+0x00: Grey
+0x01: Blue
+0x02-FF :Pink Good
+
+Temperament
+0 - Red
+3 - Blue
+
+Racing style:
+0 F
+1 S
+2 M
+3 C

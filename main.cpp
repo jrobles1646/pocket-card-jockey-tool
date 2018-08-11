@@ -4,14 +4,13 @@
 //	Type of Program:				Save editing tool										//
 //	Author:							Jeremy Robles											//
 //	Date Started:					August 8, 2018											//
-//	Last modified:					August 10, 2018											//
+//	Last modified:					August 11, 2018											//
 //	File Name:						main.cpp												//
 //																							//
 //////////////////////////////////////////////////////////////////////////////////////////////
 //	This program allows user to edit their horse's stats and cash. Currently, the program	//
-//	doesn't edit the player data, horse's name, appearance, gender, racing style, skills,	//
-//	temperament, active shop items, and newborn foals for growth mode. There are no plans	//
-//	to implement a puzzle pieces or trophies editor.										//
+//	doesn't edit the player data, horse's name, skills, and, active shop items.				//
+//	There are no plans to implement a puzzle pieces or trophies editor.						//
 //																							//
 //	To use this program, you must have a 3DS homebrew tool that allows you to extract and	//
 //	inject save data for the Pocket Card Jockey software. Once you extract the data, it		//
@@ -27,7 +26,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <vector>
-//#include "Horse.h"
 #include "SaveData.h"
 
 using namespace std;
@@ -42,6 +40,11 @@ bool maxCashOption();
 bool saveDataOption();
 int quitOption();
 void about();
+
+void displayCharacterList()
+{
+
+}//end member function string Horse::appearanceToString(byte data)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //										MAIN FUNCTION										//
@@ -68,6 +71,8 @@ int main()
 
 	SaveData pocketCardJockey(savedata);
 	savedata.seekp(0, ios::beg);
+
+	displayCharacterList();
 
 	while (menuFlag)
 	{
@@ -120,17 +125,23 @@ int main()
 			cout << "Sorry! :(\n";
 			break;
 
-		//User wishes to overwrite save data
+		//User wishes to create a new horse
 		case 7:
+			cout << "Unfortunately, this feature has not been implemented.\n";
+			cout << "Sorry! :(\n";
+			break;
+
+		//User wishes to overwrite save data
+		case 8:
 			if (saveDataOption())
 			{
 				pocketCardJockey.overwriteData(savedata);
-				cout << "Data saved.\n";
+				cout << "\n>>Data saved.\n";
 			}
 			break;
 
 		//User wishes to quit program
-		case 8:
+		case 9:
 			userInput = quitOption();
 
 			if (userInput == 1)
@@ -142,7 +153,7 @@ int main()
 			if (userInput == 2)
 			{
 				pocketCardJockey.overwriteData(savedata);
-				cout << "Data saved.\n";
+				cout << "\n>>Data saved.\n";
 				menuFlag = false;
 			}//end conditional if (userInput == 2)
 
@@ -153,7 +164,7 @@ int main()
 			break;
 		}//end switch statement switch (userInput)
 
-		cout << "*Reminder: If you made any changes, remember to save them!\n";
+		cout << "\n*Reminder: If you made any changes, remember to save them!\n";
 		cout << endl;
 
 	}//end loop while (menuFlag)
@@ -180,8 +191,9 @@ void displayMenu()
 	cout << "4) Maximize cash prizes\n";
 	cout << "5) Edit player name/gender\n";
 	cout << "6) Edit active items\n";
-	cout << "7) Save data\n";
-	cout << "8) Quit program\n";
+	cout << "7) Create new horse\n";
+	cout << "8) Save data\n";
+	cout << "9) Quit program\n";
 	cout << "0) About/info\n";
 	cout << "===========================================\n";
 }//end function void displayMenu()
@@ -194,13 +206,13 @@ int editHorseOption(SaveData* pocketCardJockey)
 	int userInput = 0;
 	cout << "=========> Edit individual stats <=========\n";
 	cout << "Select a horse from the following list (1-22):\n";
-	cout << "  0) Nevermind (leave option)...\n";
+	cout << "  0) Nevermind (exit)...\n";
 	pocketCardJockey->printShortList();
 	cout << "=>";
 	cin >> userInput;
 	cout << endl;
 
-	if (userInput < 0 || userInput > 22)
+	if (userInput < 0 || userInput > HORSE_MAX)
 	{
 		cout << "Invalid option. Let's try that again:\n";
 		return editHorseOption(pocketCardJockey);
@@ -216,7 +228,10 @@ bool maxAllStatsOption()
 {
 	char userInput = 'j';
 	cout << "===========> Maximize all stats <==========\n";
-	cout << "This will raise speed and stamina to 255, and raise the number of wins to match the number of races your horse participated in.\n";
+	cout << "This will affect ALL of your horses!\n";
+	cout << "This will raise speed and stamina to 255, and raise the number\n";
+	cout << "of wins to match the number of races your horse participated in.\n";
+	cout << "The horse's temperament will be happy and can make 255 more babies.\n";
 	cout << "Are you sure you want to do this? (Y/N)\n";
 	cout << "=>";
 	cin >> userInput;
@@ -224,7 +239,7 @@ bool maxAllStatsOption()
 	switch (toupper(userInput))
 	{
 	case 'Y':
-		cout << "Maximized all horses.\n\n";
+		cout << "\n>>Maximized all horses.\n\n";
 		return true;
 	case 'N':
 		return false;
@@ -250,7 +265,7 @@ bool maxCashOption()
 	switch (toupper(userInput))
 	{
 	case 'Y':
-		cout << "Maximized all cash prizes.\n\n";
+		cout << "\n>>Maximized all cash prizes.\n\n";
 		return true;
 	case 'N':
 		return false;
@@ -322,10 +337,8 @@ void about()
 	cout << "/////////////////////////////////////////////////////////////////\n";
 	cout << "// This program allows user to edit their horse's stats and    //\n";
 	cout << "// and cash. Currently, the program doesn't edit the player    //\n";
-	cout << "// data, horse's name, appearance, gender, racing style,       //\n";
-	cout << "// skills, temperament, active shop items, and newborn foals   //\n";
-	cout << "// for growth mode. There are no plans to implement a puzzle   //\n";
-	cout << "// pieces or trophies editor.                                  //\n";
+	cout << "// data, horse's name, skills, and active shop items. There    //\n";
+	cout << "// are no plans to implement a puzzle or trophies editor.      //\n";
 	cout << "//                                                             //\n";
 	cout << "// To use this program, you must have a 3DS homebrew  tool     //\n";
 	cout << "// that allows you to extract/inject save data for the Pocket  //\n";

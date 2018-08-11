@@ -6,15 +6,16 @@
 class SaveData
 {
 private:
-	Horse* allHorses[22];
+	Horse* allHorses[HORSE_MAX];
 	Horse* youngHorse;			//Horse being raised in growth mode
-	Horse* matureHorse[7];		//Adult horses
+	Horse* matureHorse[6];		//Adult horses
+	Horse* dummyHorse;			//
+	Horse* foal[5];			//Foals available to be chosen from growth mode
 	Horse* farmHorse[12];		//Retired horses living in the farm
 	Horse* breedingHorse[2];	//Horses that are currently breeding. M is 0, F is 1
 	byte cash[8][4];			//Cash is stored in 4 bytes
 	byte playerName[20];		//Name of player 1AF0
 	//byte items[8][3];			//Currently activated items for races
-	//Horse* Foal[x];			//Foals available to be chosen from growth mode
 
 public:
 	//Constructors
