@@ -95,7 +95,14 @@ Horse::Horse(unsigned short int address, fstream& saveFileData)
 		saveFileData.get(name[i]);
 	}//end loop for (int i = 0; i < 32; i++)
 
-}//end function Horse::Horse(unsigned short int address, fstream& saveFileData)
+}//end member function Horse::Horse(unsigned short int address, fstream& saveFileData)
+
+//--------------------------------------------------------------------------------------------
+// Destructor for class
+Horse::~Horse()
+{
+
+}//end destructor Horse::~Horse()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //									FUNCTION DEFINITIONS									//
@@ -119,7 +126,7 @@ string Horse::nameToString()
 		playerName.push_back(name[i]);
 	}//end loop for (int i = 0; i < 32; i += 2)
 	return playerName;
-}//end function void Horse::nameToString()
+}//end member function void Horse::nameToString()
 
 //--------------------------------------------------------------------------------------------
 // Print data about this horse
@@ -208,7 +215,7 @@ void Horse::writeData(unsigned short int address, fstream& saveFileData)
 		saveFileData.write(&name[i], 1);
 	}//end loop for (int i = 0; i < 32; i++)
 
-}//end function void Horse::writeData(unsigned short int address, fstream& saveFileData)
+}//end member function void Horse::writeData(unsigned short int address, fstream& saveFileData)
 
 //--------------------------------------------------------------------------------------------
 // Raise speed to 255, stamina to 255, wins equal to races, can make 255 more babies,
@@ -221,7 +228,7 @@ void Horse::maxStats()
 	fertility = (byte)0xFF;	//255
 	temperament = (byte)3;
 
-}//end function void Horse::maxStats()
+}//end member function void Horse::maxStats()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //										MUTATOR FUNCTIONS									//

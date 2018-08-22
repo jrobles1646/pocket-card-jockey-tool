@@ -1,6 +1,8 @@
 +0x18: Appearance
 +0x1A Speed
 +0x1C: Stamina
++0x1E: 
++0x20:
 +0x2C: Wins
 +0x2D: Races
 +0x2E: Breeding capability
@@ -10,6 +12,8 @@
 +0x4A: Peak Time 1
 +0x4B: Peak Time 2
 +0x56-74 : Horse's name
++019A-19C: Items
+0x19D: # of items (0-3)
 
 skills located somewhere in +0x30
 
@@ -223,6 +227,7 @@ Female
 
 0x32 skills
 0x01 Infinite Time (W)
+0x02 Big Hearted (W)
 0x80 Fast start
 0x82 Auto-draw (W)
 0x20 Good tempered
@@ -307,3 +312,31 @@ Racing style:
 1 S
 2 M
 3 C
+
+Items
+
+0x01
+0x02 Tiny Carrot
+0x03 Lucky Gloves
+0x04 Time Crop
+0x06 Joker Crop
+0x07 Sharp Sight
+0x08 Reset Gloves
+0x09 Future Goggles
+0x0A
+0x0B Hazard Goggles
+0x0C
+0x0D
+0x0E
+0x0F Quick Gloves
+0x10 Stamina Carrot
+0x11 Stamina Carrot Z
+
+
+Happy Carrot Z
+Charge Carrot
+Happy Carrot
+
+Guide Goggles
+Dash Crop
+Lighting Crop

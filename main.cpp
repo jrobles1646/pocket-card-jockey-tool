@@ -37,6 +37,7 @@ void displayMenu();
 int editHorseOption(SaveData* pocketCardJockey);
 bool maxAllStatsOption();
 bool maxCashOption();
+bool itemOption();
 bool saveDataOption();
 int quitOption();
 void about();
@@ -121,8 +122,8 @@ int main()
 
 		//User wishes to edit their active racing items
 		case 6:
-			cout << "Unfortunately, this feature has not been implemented.\n";
-			cout << "Sorry! :(\n";
+			if (itemOption())
+				pocketCardJockey.editItems();
 			break;
 
 		//User wishes to create a new horse
@@ -274,6 +275,33 @@ bool maxCashOption()
 		return maxCashOption();
 	}//end statement switch (toupper(userInput))
 }//end function bool maxCashOption()
+
+//--------------------------------------------------------------------------------------------
+// Submenu to change items. Returns true if user does want to edit their inventory
+// or returns false if they changed their mind.
+bool itemOption()
+{
+	char userInput = 'j';
+	cout << "===========> Edit Active Items <==========\n";
+	cout << "This feature is not fully implemented, but can set items for all race horses\n";
+	cout << "to Lucky Gloves, Joker Crop, and Stamina Carrot Z.\n";
+	cout << "Are you sure you want to do this? (Y/N)\n";
+	cout << "=>";
+	cin >> userInput;
+
+	switch (toupper(userInput))
+	{
+	case 'Y':
+		cout << "\n>>Set all items to Lucky Gloves, Joker Crop, and Stamina Carrot Z.\n\n";
+		return true;
+	case 'N':
+		return false;
+	default:
+		cout << "Invalid option. Let's try that again.\n";
+		return itemOption();
+	}//end statement switch (toupper(userInput))
+}//end function bool itemOption()
+
 
 //--------------------------------------------------------------------------------------------
 // Submenu to save data. This will reaffirm whether the user wants to overwrite save data

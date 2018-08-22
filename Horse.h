@@ -60,12 +60,13 @@ private:
 	//skill2;
 
 public:
-	//Constructors
+	//Constructors and destructor
 	Horse();	
 	Horse(byte, byte, byte, byte,
 		  byte, byte, byte, byte,
 		  byte, byte, byte[]);
 	Horse(unsigned short int, fstream&);
+	~Horse();
 
 	//Function prototypes
 	string nameToString();

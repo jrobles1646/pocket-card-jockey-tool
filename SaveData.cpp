@@ -35,6 +35,10 @@ SaveData::SaveData()
 		for (int j = 0; j < 4; j++)
 			cash[i][j] = 0;
 
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 4; j++)
+			items[i][j] = 0;
+
 	//Set player name
 	for (int i = 0; i < 20; i++)
 		playerName[i] = 0;
@@ -103,6 +107,14 @@ SaveData::SaveData(fstream& saveFileData)
 			saveFileData.get(cash[i][j]);
 		}//end loop for (int j = 0; j < 4; j++)
 
+	//Set item inventory
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 4; j++)
+		{
+			saveFileData.seekg(HorseIndex[i] + 0x19A + j);
+			saveFileData.get(items[i][j]);
+		}//end loop for (int j = 0; j < 4; j++)q
+
 	//Get player name
 	for (int i = 0; i < 20; i++)
 	{
@@ -140,6 +152,30 @@ SaveData::SaveData(fstream& saveFileData)
 	allHorses[26] = breedingHorse[1];
 }//end constructor SaveData::SaveData(fstream& saveFileData)
 
+//--------------------------------------------------------------------------------------------
+// Destructor for class SaveData
+SaveData::~SaveData()
+{
+	for (int i = 0; i < HORSE_MAX; i++)
+		delete allHorses[i];
+
+	delete youngHorse;
+
+	for (int i = 0; i < 6; i++)
+		delete matureHorse[i];
+	
+	delete dummyHorse;
+
+	for (int i = 0; i < 5; i++)
+		delete foal[i];
+
+	for (int i = 0; i < 12; i++)
+		delete farmHorse[i];
+
+	delete breedingHorse[0];
+	delete breedingHorse[1];
+}//end destructor SaveData::~SaveData()
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //									FUNCTION DEFINITIONS									//
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +197,7 @@ void SaveData::overwriteData(fstream& saveFileData)
 			saveFileData.write(&cash[i][j], 1);
 		}//end loop for (int j = 0; j < 4; j++)
 	}//end loop for (int i = 0; i < 8; i++)
-}//end function void SaveData::overwriteData(fstream& saveFileData)
+}//end member function void SaveData::overwriteData(fstream& saveFileData)
 
 //--------------------------------------------------------------------------------------------
 // Maximize stats of all horses. Speed = 255, stamina = 255, and wins = races
@@ -182,7 +218,7 @@ void SaveData::maxAllHorse()
 		allHorses[i]->setStamina(70);
 	}//end loop for (int i = 8; i < 13; i++)
 
-}//end function void SaveData::maxAllHorse()
+}//end member function void SaveData::maxAllHorse()
 
 //--------------------------------------------------------------------------------------------
 // Maximize all cash prizes for all race horses
@@ -193,7 +229,7 @@ void SaveData::maxAllCash()
 		for (int j = 0; j < 4; j++)
 			cash[i][j] = (byte)0xFF;
 
-}//end function void SaveData::maxAllCash()
+}//end member function void SaveData::maxAllCash()
 
 //--------------------------------------------------------------------------------------------
 // Prints out a report of the game save data stored in this data type
@@ -218,6 +254,7 @@ void SaveData::printAllData()
 
 	cout << "  (#1) Growth Mode Horse:\n";
 	cout << "     Reward Money: "; printCash(0);
+	printItemInventory(0);
 	youngHorse->printData();
 	cout << endl;
 
@@ -226,6 +263,7 @@ void SaveData::printAllData()
 	{
 		cout << "  (#" << i + 1 << ") Mature Horse " << i << ":\n";
 		cout << "     Reward Money: ";  printCash(i);
+		printItemInventory(i);
 		allHorses[i]->printData();
 		cout << endl;
 	}//end loop for (int i = 1; i < 8; i++)
@@ -261,7 +299,7 @@ void SaveData::printAllData()
 	cout << endl;
 	
 	cout << ">====================== END OF LIST ======================<\n\n";
-}//end functionvoid SaveData::printAllData()
+}//end member functionvoid SaveData::printAllData()
 
 //--------------------------------------------------------------------------------------------
 // Prints a list of names of all horses
@@ -273,7 +311,7 @@ void SaveData::printShortList()
 		cout << (i + 2) << ") " << allHorses[i + 1]->nameToString();
 		cout << endl;
 	}//end loop void SaveData::printShortList()
-}//end function void SaveData::printShortList()
+}//end member function void SaveData::printShortList()
 
 //--------------------------------------------------------------------------------------------
 // Converts cash bytes (little endian) from hexadecimal to decimal, then from raw decimal
@@ -288,7 +326,7 @@ void SaveData::printCash(int i)
 		cash[i][0]);
 
 	cout << "$" << rawVal / 100 << "." << setfill('0') << setw(2) << rawVal % 100 << endl;
-}//end function void SaveData::printCash(int i)
+}//end member function void SaveData::printCash(int i)
 
 //--------------------------------------------------------------------------------------------
 // Gets input from from user and changes an individual horse's stats through mutator
@@ -365,4 +403,95 @@ void SaveData::writeIndividualHorse(int i)
 
 	cout << endl;
 	cout <<  "==>Data has been set. You can see your changes with option '1) View your horses'\n ";
-}//end function void SaveData::writeIndividualHorse(int i)
+}//end member function void SaveData::writeIndividualHorse(int i)
+
+string SaveData::itemToString(byte i)
+{
+	switch (i)
+	{
+	case 0:
+		return "No Item";
+	case 1:
+		return "(unknown)";
+	case 2:
+		return "Tiny Carrot";
+	case 3:
+		return "Lucky Gloves";
+	case 4:
+		return "Time Crop";
+	case 5:
+		return "(unkown)";
+	case 6:
+		return "Joker Crop";
+	case 7:
+		return "Sharp Sight";
+	case 8:
+		return "Reset Gloves";
+	case 9:
+		return "Future Goggles";
+	case 0xA:
+		return "(unknown)";
+	case 0xB:
+		return "Hazard Goggles";
+
+	case 0xC:
+		return "(unknown)";
+	case 0xD:
+		return "(unknown)";
+	case 0xE:
+		return "(unknown)";
+
+	case 0xF:
+		return "Quick Gloves";
+	case 0x10:
+		return "Stamina Carrot";
+	case 0x11:
+		return "Stamina Carrot Z";
+	default:
+		return "No Item";
+	}//end switch (i)
+}//end member function string SaveData::itemToString(byte i)
+
+//--------------------------------------------------------------------------------------------
+// 
+void SaveData::displayItemList()
+{
+	cout << "0) No item" << "\t" << "1) (unknown)" << "\t" << "2) Tiny Carrot" << endl;
+	cout << "3) Lucky Gloves" << "\t" << "4) Time Crop" << "\t" << "5) (unknown)" << endl;
+	cout << "6) Joker Crop" << "\t" << "7) Sharp Sight" << "\t" << "8) Reset Gloves" << endl;
+	cout << "9) Future Goggles" << "\t" << "10) (unknown)" << "\t" << "11) Hazard Goggles" << endl;
+	cout << "12) (unknown)" << "\t" << "13) (unknown)" << "\t" << "14) (unknown)" << endl;
+	cout << "15) Quick Gloves" << "\t" << "16) Stamina Carrot" << "\t" << "17) Stamina Carrot Z" << endl;
+
+}//end member function void SaveData::displayItemList()
+
+//--------------------------------------------------------------------------------------------
+// 
+void SaveData::printItemInventory(int i)
+{
+	if (items[i][3] == (byte)0)
+	{
+		cout << "     No items\n";
+		return;
+	}
+
+
+	cout << "     " << ((unsigned int)items[i][3] & 0xFF) << " items: ";
+	for (int j = 0; byte(j) < items[i][3]; j++)
+		cout << itemToString(items[i][j]) << "\t";
+	cout << endl;
+}//end member function void SaveData::printItemInventory()
+
+//--------------------------------------------------------------------------------------------
+// 
+void SaveData::editItems()
+{//TEMPORARY FUNCTION
+	//Set item inventory
+	for (int i = 0; i < 8; i++)
+	{
+		items[i][0] = (byte)0x6;	//lucky gloves
+		items[i][1] = (byte)0x3;	//joker crop
+		items[i][2] = (byte)0x11;	//stamina carrot z
+		items[i][3] = (byte)0x3;	//inventory amount = 3
+	}//end loop	for (int i = 0; i < 8; i++)
+}//end member function void SaveData::editItems()
